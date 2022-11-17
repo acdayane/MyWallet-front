@@ -10,23 +10,25 @@ export default function MainPage() {
         <Container>
             <Header>
                 <h1>Olá, {name}!</h1>
-                <ion-icon name="log-out-outline"></ion-icon>
+                <Link to="/">
+                    <ion-icon name="log-out-outline"></ion-icon>
+                </Link>
             </Header>
             <BoxMain>
                 <h2>Não há registros de entrada ou saída</h2>
             </BoxMain>
             <ContainerBotton>
                 <BoxCashInOut>
-                    <Link to="/nova-entrada" style={{ textDecoration: "none" }}>
+                    <Link to="/nova-entrada">
                         <ion-icon name="add-circle-outline"></ion-icon>
-                        <p>Nova entrada</p>
                     </Link>
+                    <p>Nova entrada</p>
                 </BoxCashInOut>
                 <BoxCashInOut>
-                    <Link to="/nova-saida" style={{ textDecoration: "none" }}>
+                    <Link to="/nova-saida">
                         <ion-icon name="remove-circle-outline"></ion-icon>
-                        <p>Nova saída</p>
                     </Link>
+                    <p>Nova saída</p>
                 </BoxCashInOut>
             </ContainerBotton>
         </Container >
@@ -89,14 +91,19 @@ const BoxCashInOut = styled.div`
     width: 44vw;
     background-color: #A328D6;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
 p {
     font-family: 'Lexend Deca', sans-serif;
     font-weight: 700;
+    line-height: 20px;
+    width:80px;
     color: #FFFFFF;
     font-size: 17px;
+    margin: 10px;
 }
 ion-icon {
+    margin: 10px;
     font-size: 30px;
     color: #FFFFFF;
     cursor: pointer;

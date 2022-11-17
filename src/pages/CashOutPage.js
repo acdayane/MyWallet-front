@@ -57,6 +57,7 @@ h1 {
 form {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 input {
     border: 1px solid #D5D5D5;
@@ -78,7 +79,7 @@ input::placeholder {
 button {
     border: 1px solid #A328D6;
     border-radius: 5px;
-    width: 92vw;
+    width: 331px;
     height: 48px;
     background: #A328D6;
     font-family: 'Lexend Deca', sans-serif;
