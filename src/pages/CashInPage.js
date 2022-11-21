@@ -16,8 +16,9 @@ export default function CashInPage() {
         e.preventDefault();
 
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const body = { description, value };
+        const body = { description, value, operation: "cashIn" };
         console.log(body)
+        console.log(token)
         const promise = axios.post("http://localhost:5000/add-event", config, body);
 
         promise.then((res) => {

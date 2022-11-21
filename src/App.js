@@ -3,7 +3,7 @@ import { GlobalStyle } from "./assets/GlobalStyle";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
-import MainPage from "./pages/MainPage";
+import MainPage from "./pages/MainPage/MainPage";
 import CashInPage from "./pages/CashInPage";
 import CashOutPage from "./pages/CashOutPage";
 import DataProvider from "./context/DataUser";

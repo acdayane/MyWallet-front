@@ -22,13 +22,13 @@ export default function RegistrationPage() {
         }
         else {
             const body = { name, email, password };
-
             const promise = axios.post("http://localhost:5000/sign-up", body);
+
             promise.then((res) => {
                 navigate(`/`);
             })
             promise.catch((err) => {
-                alert("Ops! Algo deu errado...")
+                alert("Ops! Algo deu errado...");
                 console.log(err.response.data);
             })
         }
@@ -84,7 +84,7 @@ export default function RegistrationPage() {
 
         </Container>
     )
-}
+};
 
 const Container = styled.div`
     background-color: #8C11BE;

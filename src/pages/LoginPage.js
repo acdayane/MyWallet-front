@@ -60,7 +60,7 @@ export default function LoginPage() {
 
         </Container>
     )
-}
+};
 
 const Container = styled.div`
     background-color: #8C11BE;

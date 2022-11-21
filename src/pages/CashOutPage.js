@@ -16,7 +16,7 @@ export default function CashOutPage() {
         e.preventDefault();
 
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const body = { description, value };
+        const body = { description, value, operation: "cashOut" };
         const promise = axios.post("http://localhost:5000/add-event", config, body);
 
         promise.then((res) => {

@@ -1,25 +1,26 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDataUser } from "../context/DataUser";
+import { useDataUser } from "../../context/DataUser";
 import axios from "axios";
+import EventsList from "./EventsList";
 
 export default function MainPage() {
 
     const { token, userName } = useDataUser();
-    const [events, setEvents] = useState(null);  
+    const [events, setEvents] = useState(null);
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
 
-    useEffect(() => {        
+    useEffect(() => {
         const promise = axios.get("http://localhost:5000/get-events", config)
 
         promise.then((res) => {
             setEvents(res.data);
         });
         promise.catch((err) => {
-            console.log(err.response.data)
+            console.log(err.response.data);
         });
     }, []);
 
@@ -34,6 +35,14 @@ export default function MainPage() {
         });
     };
 
+    if (events === null) {
+        return (
+            <Container>
+                <img src="https://flevix.com/wp-content/uploads/2019/07/Curve-Loading.gif" alt={'Carregando...'} />
+            </Container>
+        )
+    };
+
     return (
         <Container>
             <Header>
@@ -43,10 +52,10 @@ export default function MainPage() {
                 </Link>
             </Header>
             <BoxMain>
-                {events === null ? (
+                {events.length === 0 ? (
                     <h2>Não há registros de entrada ou saída</h2>
                 ) : (
-                    <h1>lista de registros</h1>
+                    <EventsList events={events} />
                 )}
             </BoxMain>
             <ContainerBotton>
@@ -74,6 +83,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 `
 const Header = styled.div`
     width: 90vw;
@@ -130,7 +140,7 @@ p {
     font-family: 'Lexend Deca', sans-serif;
     font-weight: 700;
     line-height: 20px;
-    width:80px;
+    width: 80px;
     color: #FFFFFF;
     font-size: 17px;
     margin: 10px;
