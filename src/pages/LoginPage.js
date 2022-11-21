@@ -3,12 +3,11 @@ import { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
-//import {useDataUser} from "../context/DataUser"
+import {useDataUser} from "../context/DataUser"
 
 export default function LoginPage() {
  
-    //const {setToken} = useDataUser();
-    const [token, setToken] = useState("");
+    const { setToken, setUserName } = useDataUser();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -18,17 +17,19 @@ export default function LoginPage() {
         e.preventDefault();
 
         const body = { email, password };
-        const promise = axios.post("https://", body);
+        const promise = axios.post("http://localhost:5000/sign-in", body);
        
-        promise.then((res) => {        
-            setToken(res.data.token);           
+        promise.then((res) => {    
+            setToken(res.data.token); 
+            setUserName(res.data.userName);          
             navigate(`/meus-registros`);
-        })
+        });
  
         promise.catch((err) => {
-            alert("Ops! Algo deu errado...", err.response.data);
-        })
-    }
+            alert("E-mail ou senha incorretos");
+            console.log(err.response.data);
+        });        
+    };
 
     return (
         <Container>

@@ -6,12 +6,12 @@ import RegistrationPage from "./pages/RegistrationPage";
 import MainPage from "./pages/MainPage";
 import CashInPage from "./pages/CashInPage";
 import CashOutPage from "./pages/CashOutPage";
-//import DataProvider from "./context/DataUser";
+import DataProvider from "./context/DataUser";
 
 export default function App() {
 
   return (
-    //<DataProvider>
+    <DataProvider>
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
@@ -22,6 +22,6 @@ export default function App() {
         <Route path="/nova-saida" element={<CashOutPage />} />
         </Routes>
       </BrowserRouter>
-    //</DataProvider>
+    </DataProvider>
   );
 }

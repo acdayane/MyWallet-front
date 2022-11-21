@@ -1,21 +1,53 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDataUser } from "../context/DataUser";
+import axios from "axios";
 
 export default function MainPage() {
 
-    const [name, setName] = useState("Dayane");
+    const { token, userName } = useDataUser();
+    const [events, setEvents] = useState(null);  
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+
+    useEffect(() => {        
+        const promise = axios.get("http://localhost:5000/get-events", config)
+
+        promise.then((res) => {
+            setEvents(res.data);
+        });
+        promise.catch((err) => {
+            console.log(err.response.data)
+        });
+    }, []);
+
+    function logout() {
+        const promise = axios.delete("http://localhost:5000/sign-out", config)
+
+        promise.then((res) => {
+            alert("Até breve!");
+        });
+        promise.catch((err) => {
+            console.log(err.response.data)
+        });
+    };
 
     return (
         <Container>
             <Header>
-                <h1>Olá, {name}!</h1>
+                <h1>Olá, {userName}!</h1>
                 <Link to="/">
-                    <ion-icon name="log-out-outline"></ion-icon>
+                    <ion-icon name="log-out-outline" onClick={logout}></ion-icon>
                 </Link>
             </Header>
             <BoxMain>
-                <h2>Não há registros de entrada ou saída</h2>
+                {events === null ? (
+                    <h2>Não há registros de entrada ou saída</h2>
+                ) : (
+                    <h1>lista de registros</h1>
+                )}
             </BoxMain>
             <ContainerBotton>
                 <BoxCashInOut>
@@ -33,7 +65,7 @@ export default function MainPage() {
             </ContainerBotton>
         </Container >
     )
-}
+};
 
 const Container = styled.div`
     background-color: #8C11BE;
@@ -54,6 +86,7 @@ h1 {
     font-weight: 700;
     color: #FFFFFF;
     font-size: 26px;
+    text-transform: capitalize;
 }
 ion-icon {
     font-size: 30px;
@@ -84,7 +117,7 @@ const ContainerBotton = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-`    
+`
 const BoxCashInOut = styled.div`       
     border-radius: 5px;
     height: 20vh;

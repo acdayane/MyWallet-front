@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDataUser } from "../context/DataUser";
 
 export default function CashInPage() {
 
+    const { token } = useDataUser();
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
     const navigate = useNavigate();
@@ -12,7 +14,27 @@ export default function CashInPage() {
     function newCashIn(e) {
 
         e.preventDefault();
-    }
+
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        const body = { description, value };
+        console.log(body)
+        const promise = axios.post("http://localhost:5000/add-event", config, body);
+
+        promise.then((res) => {
+            const result = window.confirm("Deseja adicionar mais uma receita?");
+            if (result === true) {
+                setValue("");
+                setDescription("");
+            }
+            else {
+                navigate("/meus-registros");
+            };
+        });
+
+        promise.catch((err) => {
+            console.log(err.response.data)
+        });
+    };
 
     return (
 
@@ -23,6 +45,8 @@ export default function CashInPage() {
                     type="number"
                     placeholder="Valor"
                     value={value}
+                    min={1}
+                    max={999999}
                     onChange={e => setValue(e.target.value)}
                     required
                 />
@@ -30,6 +54,8 @@ export default function CashInPage() {
                     type="text"
                     placeholder="Descrição"
                     value={description}
+                    min={3}
+                    max={30}
                     onChange={e => setDescription(e.target.value)}
                     required
                 />

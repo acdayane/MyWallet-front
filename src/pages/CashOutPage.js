@@ -1,28 +1,51 @@
 import { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDataUser } from "../context/DataUser";
 
 export default function CashOutPage() {
 
+    const { token } = useDataUser();
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
     const navigate = useNavigate();
 
-    function newCashIn(e) {
+    function newCashOut(e) {
 
         e.preventDefault();
-    }
+
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        const body = { description, value };
+        const promise = axios.post("http://localhost:5000/add-event", config, body);
+
+        promise.then((res) => {
+            const result = window.confirm("Deseja adicionar mais uma despesa?");
+            if (result === true) {
+                setValue("");
+                setDescription("");
+            }
+            else {
+                navigate("/meus-registros");
+            }
+        });
+
+        promise.catch((err) => {
+            console.log(err.response.data)
+        });
+    };
 
     return (
 
         <Container>
             <h1>Nova saída</h1>
-            <form onSubmit={newCashIn}>
+            <form onSubmit={newCashOut}>
                 <input
                     type="number"
                     placeholder="Valor"
                     value={value}
+                    min={-999999}
+                    max={-1}
                     onChange={e => setValue(e.target.value)}
                     required
                 />
@@ -30,6 +53,8 @@ export default function CashOutPage() {
                     type="text"
                     placeholder="Descrição"
                     value={description}
+                    min={3}
+                    max={30}
                     onChange={e => setDescription(e.target.value)}
                     required
                 />

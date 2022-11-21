@@ -16,19 +16,20 @@ export default function RegistrationPage() {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            setEmail("");
+            setPassword("");
             setConfirmPassword("");
             alert(`Os campos "Senha" e "Confirme a senha" precisam ser iguais!`);
         }
         else {
             const body = { name, email, password };
 
-            const promise = axios.post("https://mock", body);
+            const promise = axios.post("http://localhost:5000/sign-up", body);
             promise.then((res) => {
-                navigate(`/meus-registros`);
+                navigate(`/`);
             })
             promise.catch((err) => {
-                alert("Ops! Algo deu errado...", err.response.data);
+                alert("Ops! Algo deu errado...")
+                console.log(err.response.data);
             })
         }
     }
@@ -44,6 +45,8 @@ export default function RegistrationPage() {
                     type="text"
                     placeholder="Nome"
                     value={name}
+                    min={2}
+                    max={50}
                     onChange={e => setName(e.target.value)}
                     required
                 />
@@ -58,6 +61,8 @@ export default function RegistrationPage() {
                     type="password"
                     placeholder="Senha"
                     value={password}
+                    min={4}
+                    max={8}
                     onChange={e => setPassword(e.target.value)}
                     required
                 />
@@ -65,6 +70,8 @@ export default function RegistrationPage() {
                     type="password"
                     placeholder="Confirme a senha"
                     value={confirmPassword}
+                    min={4}
+                    max={8}
                     onChange={e => setConfirmPassword(e.target.value)}
                     required
                 />
