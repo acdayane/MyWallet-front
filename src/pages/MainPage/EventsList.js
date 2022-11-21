@@ -4,10 +4,11 @@ import styled from "styled-components";
 export default function EventsList({ events }) {
 
     const [sum, setSum] = useState("");
-    let arrValues = [];
-    let arrSum = 0;
 
     useEffect(() => {
+        let arrValues = [];
+        let arrSum = 0;
+
         events.map((e) => arrValues.push(Number(e.newEvent.value)));
 
         for (let i = 0; i < events.length; i++) {
@@ -15,12 +16,11 @@ export default function EventsList({ events }) {
         };
 
         setSum(arrSum);
-        console.log(arrValues)
 
         if (sum > 0) {
-            setSum(<span style={{ color: "#03AC00" }}>{arrSum}</span>)
+            setSum(<span style={{ color: "#03AC00" }}>{arrSum},00</span>)
         } else {
-            setSum(<span style={{ color: "#C70000" }}>-{arrSum}</span>)
+            setSum(<span style={{ color: "#C70000" }}>{arrSum},00</span>)
         };
     }, []);
 
@@ -30,7 +30,7 @@ export default function EventsList({ events }) {
                 <EventRow key={e._id}>
                     <p style={{ color: "#C6C6C6" }}>{e.newEvent.date}</p>
                     <p style={{ color: "#000000" }}>{e.newEvent.description}</p>
-                    <p operation={e.operation}>{e.newEvent.value}</p>
+                    <p style={{ color: "#000000" }}>{e.newEvent.value},00</p>
                 </EventRow>
             )}
             <FooterList>
@@ -51,7 +51,6 @@ const List = styled.div`
 const FooterList = styled.div`
     display: flex;
     justify-content: space-between;
-
 span {
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
@@ -68,6 +67,5 @@ const EventRow = styled.div`
     font-size: 17px;
 p {
     margin: 5px;
-    color: ${(props) => props.operation === "cashIn" ? "#03AC00" : "#C70000"};
 }
 `
